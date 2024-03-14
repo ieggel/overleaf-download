@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# If you do not want to enter your email and password every time, you can store them in the following variables
+# Uncomment both lines below and replace xxx with your email and password
+# email=xxx
+# password=xxx
+
+# Comment the 4 lines below if you set the email and password above
+echo "Overleaf email:"
+read email
+echo "Overleaf password:"
+read -s password
+
+cookies_and_project_ids=$(python ./overleaf_info.py $email $password)
+
+# Download path. By default, it will be saved in the home directory with the name overleaf-backup-YYYY-MM-DD.zip
+# Change if needed
+today=$(date +"%Y-%m-%d")
+output_path=~/overleaf-backup-${today}.zip
+
+# read first line into cookie var, second one into projects_ids
+{ read cookie; read project_ids;} <<< "${cookies_and_project_ids}"
+
+download_url="https://www.overleaf.com/project/download/zip?project_ids=$projects_ids"
+
+curl -b "$cookie" -o $output_path $download_url
+
