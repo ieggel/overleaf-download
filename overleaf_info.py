@@ -32,9 +32,19 @@ elem_email.send_keys(email)
 elem_password.send_keys(password)
 driver.execute_script("arguments[0].click();", elem_login_button)
 
-WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//table")))
+wait = WebDriverWait(driver, 10)
+
+wait.until(EC.presence_of_element_located((By.XPATH, "//footer")))
 
 cookies = "; ".join([f"{cookie['name']}={cookie['value']}" for cookie in driver.get_cookies()])
+
+# Look for 'Show all ' button
+elem_show_all = driver.find_element(By.XPATH, "//button[contains(text(), 'Show all')]")
+
+if(elem_show_all):
+    driver.execute_script("arguments[0].click();", elem_show_all)
+    # Wait until show more button disappears => makes sure all rows in table are loaded
+    wait.until_not(EC.presence_of_element_located((By.CSS_SELECTOR, "button.project-list-load-more-button")))  
 
 project_elements = driver.find_elements(By.XPATH, '//*[@data-project-id]')
 project_ids_string = ','.join([element.get_attribute('data-project-id') for element in project_elements])

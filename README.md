@@ -30,9 +30,6 @@ By default, the downloaded zip file will be saved in the home directory with the
 - Credentials are asked by the bash script
   - Possibly it would be better to hard code the credentials (comments in `download` script)
 
-#### Paging
-Currently the script only works for a small number of Overleaf projects. The python script would need to implement clicking the `Load more` button in order to get a complete list of all project IDs.
-
 ## Depencies
 - Bash
 - Python
