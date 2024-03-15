@@ -21,7 +21,7 @@ output_path=~/overleaf-backup-${today}.zip
 # read first line into cookie var, second one into projects_ids
 { read cookie; read project_ids;} <<< "${cookies_and_project_ids}"
 
-download_url="https://www.overleaf.com/project/download/zip?project_ids=$projects_ids"
+download_url="https://www.overleaf.com/project/download/zip?project_ids=$project_ids"
 
 curl -b "$cookie" -o $output_path $download_url
 
